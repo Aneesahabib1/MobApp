@@ -27,7 +27,7 @@ const Profile = () => {
   const { fullName } = route.params ?? { fullName: 'Default Name' };
 
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [profileImage, setProfileImage] = useState(require('../assets/Review_pfp.webp'));
+  const [profileImage, setProfileImage] = useState(require(''));
   const [name, setName] = useState(fullName); // Initialize name with the logged-in fullName
   const [editedName, setEditedName] = useState(fullName); // New state to store edited name
   const [designation, setDesignation] = useState('Jr. Developer');

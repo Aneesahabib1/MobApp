@@ -13,7 +13,6 @@ import { Welcome } from '../screens';
 import RequestedAttendance from '../screens/RequestedAttendance';
 import Review from '../screens/Review';
 import EmployeeMD from '../screens/EmployeeMD';
-import { AuthProvider } from '../context/authContext';
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
@@ -21,7 +20,6 @@ export default function AppNavigation() {
 
   return (
     <NavigationContainer>
-            <AuthProvider>
       <Stack.Navigator>
         <Stack.Screen name="Welcome" options={{ headerShown: false }}  component={Welcome} />
         <Stack.Screen name="Login" options={{ headerShown: false }} component={Login} />
@@ -37,7 +35,6 @@ export default function AppNavigation() {
         <Stack.Screen name="EmployeeMD" options={{ headerShown: false }} component={EmployeeMD} />
 
       </Stack.Navigator>
-      </AuthProvider>
     </NavigationContainer>
   );
 }
