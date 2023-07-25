@@ -2,7 +2,7 @@
 import { View, Text, StyleSheet, FlatList, TextInput } from 'react-native'
 import React,{useEffect, useState} from 'react'
 
-const Task = ()=>{
+const EmployeeMD = ()=>{
     const [attData, setAttData]=useState();
     const [isLoaded, setIsLoaded]= useState(true);
     const [filteredData, setFilteredData] = useState([]);
@@ -13,7 +13,7 @@ const Task = ()=>{
 const getData= async()=>{
     try{
         const response= await fetch(
-            "https://64665758ba7110b6639e57a4.mockapi.io/api/attendance/Task"
+            "https://646296267a9eead6fad2c898.mockapi.io/api/V1/EmpMD-PerM"
         );
         const myData = await response.json();
         setAttData(myData);
@@ -40,9 +40,9 @@ const handleSearch = (text) => {
 
 return(
     <View style={styles.mainContainer}>
-        <View style={styles.titleContainer}>
-      <Text style={styles.title}>Employee Tasks</Text></View>
-        <TextInput
+<View style={styles.titleContainer}>
+      <Text style={styles.title}>Employee Maste Data</Text></View>     
+         <TextInput
         style={styles.searchBar}
         placeholder="Search by ID"
         onChangeText={handleSearch}
@@ -58,14 +58,17 @@ return(
     return(<View style={styles.card}>
         <View>
           <View style={styles.dataContainer}>
-            <Text style={styles.data}> Task Data </Text>
+            <Text style={styles.data}> Employees List </Text>
           </View>
           <View style={styles.mainContain}>
             <Text style={styles.myName}> ID: {item.id} </Text>
-            <Text style={styles.myName}> Title: {item.title} </Text>
-            <Text style={styles.myName}> Status: {item.status} </Text>
-            <Text style={styles.myName}> Assigned to: {item.assignedto} </Text>
-            <Text style={styles.myName}> Assigned by: {item.assignedby} </Text>
+            <Text style={styles.myName}> Employee Code: {item.empcode} </Text>
+            <Text style={styles.myName}> Job Title: {item.desigg} </Text>
+            <Text style={styles.myName}> DEpartment: {item.departn} </Text>
+            <Text style={styles.myName}> Joining date: {item.doj} </Text>
+            <Text style={styles.myName}> Shift: {item.shift} </Text>
+            <Text style={styles.myName}> Employement Type: {item.etype} </Text>
+
           </View>   
         </View> 
       </View>)
@@ -78,23 +81,23 @@ return(
 };
 
 const styles = StyleSheet.create({
-  title: {
-    fontFamily:'Light',
-    fontSize: 20,
-    marginBottom: 16,
-    marginLeft:100,
-    marginTop:20,
-    textAlign:'center',
-    color:'white',
-  },
-  titleContainer:{
-    backgroundColor:'#153e5b',
-    flexDirection:'row',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingTop: 20,
-    width:'150%',
+    title: {
+        fontFamily:'Light',
+        fontSize: 20,
+        marginBottom: 16,
+        marginLeft:80,
+        marginTop:20,
+        textAlign:'center',
+        color:'white',
       },
+      titleContainer:{
+        backgroundColor:'#153e5b',
+        flexDirection:'row',
+        alignItems: 'center',
+        paddingHorizontal: 15,
+        paddingTop: 20,
+        width:'150%',
+          },
     searchBar: {
         height: 40,
         width:150,
@@ -115,8 +118,6 @@ const styles = StyleSheet.create({
       minHeight: "100%",
       paddingVertical: 50,
       backgroundColor: "#f4f5ff",
-      padding: 0,
-
     },
     card: {
       width: 250,
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 8,
     borderColor: '#0a1f2e', 
+    marginTop:50
     },
     dataContainer: {
       width: "100%",
@@ -183,4 +185,4 @@ const styles = StyleSheet.create({
       fontFamily: "JosefinSans_400Regular",
     },
   });
-  export default Task;
+  export default EmployeeMD;

@@ -1,17 +1,68 @@
 
-import React from 'react';
+
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Image, TextInput, Keyboard, StyleSheet } from 'react-native';
-import { themeColors } from '../constants/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Svg, Path } from 'react-native-svg';
+import axios from 'axios';
 
 export default function SignUpScreen() {
+
   const navigation = useNavigation();
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
+  const signUpUser = async (fullName, email, password) => {
+    try {
+      const userData = {
+        fullName: fullName,
+        email: email,
+        password: password,
+      };
+
+      const response = await axios.post('https://64bbb5b37b33a35a444697dd.mockapi.io/MobAppLogIn', userData);
+
+      console.log('Sign Up Response:', response.data);
+      navigation.navigate("Profile", { fullName });
+    } catch (error) {
+      console.error('Error during sign up:', error);
+    }
+  };
+
+  const [fullName, setFullName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [emailExistsError, setEmailExistsError] = useState(false);
+
+  
+  const handleSignUp = () => {
+    checkExistingEmail(email)
+      .then((emailExists) => {
+        if (emailExists) {
+          setEmailExistsError(true);
+        } else {
+          setEmailExistsError(false);
+          signUpUser(fullName, email, password);
+navigation.navigate("Profile", { fullName });
+
+        }
+      })
+      .catch((error) => {
+        console.error('Error checking email existence:', error);
+      });
+  };
+
+  const checkExistingEmail = (email) => {
+    return axios
+      .get('https://64bbb5b37b33a35a444697dd.mockapi.io/MobAppSignup')
+      .then((response) => {
+        const users = response.data;
+        return users.some((user) => user.email === email);
+      });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -62,10 +113,11 @@ export default function SignUpScreen() {
               borderRadius: 20,
               borderColor: 'white',
               marginBottom: 8,
-              placeholderTextColor: 'white',
+              placeholderTextColor: 'white', 
             }}
         
-            placeholder="Tap to Enter Name" placeholderTextColor= 'white'
+            placeholder="Tap to Enter Name" placeholderTextColor= 'white' value={fullName}
+            onChangeText={(text) => setFullName(text)}
           />
           <Text style={{ color: '#aed7f4', marginLeft: 4 }}>Email Address</Text>
           <TextInput
@@ -76,8 +128,11 @@ export default function SignUpScreen() {
               borderRadius: 20,
               marginBottom: 8,
             }}
-            placeholder="Tap to Enter Email" placeholderTextColor= 'white'
+            placeholder="Tap to Enter Email" placeholderTextColor= 'white' value={email}
+            onChangeText={(text) => setEmail(text)}
           />
+           {emailExistsError && <Text style={{ color: 'red', marginLeft: 4 }}>Email already exists</Text>}
+         
           <Text style={{ color: '#aed7f4', marginLeft: 4 }}>Password</Text>
           <TextInput
             style={{
@@ -90,10 +145,11 @@ export default function SignUpScreen() {
               placeholderTextColor: 'white',
             }}
             secureTextEntry
-            placeholder="Tap to Enter Password" placeholderTextColor= 'white'
+            placeholder="Tap to Enter Password" placeholderTextColor= 'white' value={password}
+            onChangeText={(text) => setPassword(text)}
           />
           <View style={{ paddingHorizontal: 100}}>
-         <TouchableOpacity
+         <TouchableOpacity onPress={handleSignUp}
   style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: 'white', borderRadius: 20 }}
 >
   <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center', color: '#0a1f2e' }}>
@@ -111,7 +167,7 @@ export default function SignUpScreen() {
       </View>
     </View></TouchableWithoutFeedback>
   );
-}
+          }
 const styles = StyleSheet.create({
    
     title: {
@@ -121,3 +177,5 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       marginBottom: 20,
     }})
+
+

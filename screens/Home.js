@@ -1,6 +1,6 @@
 
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useLayoutEffect} from 'react';
 import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PieChartComponent from './PieChartComponent';
 import { useNavigation } from '@react-navigation/native';
@@ -10,21 +10,30 @@ import logout from '../assets/logout.png';
 import menu from '../assets/menu.png';
 import close from '../assets/close.png';
 import logo from '../assets/logo.jpeg';
+import search from '../assets/search.png';
 import BarChartComponent from './BarChartComponent';
-import Task from '../assets/Task.png';
-import Attendance from '../assets/Attendance.png';
-export default function App() {
+import Profile from './Profile';
+import RequestedAttendance from './RequestedAttendance';
+import ReviewScreen from './Review';
+import EmployeeMD from './EmployeeMD';
+
+
+export default function Home({ }) {
+
   const [currentTab, setCurrentTab] = useState("Home");
   const [showMenu, setShowMenu] = useState(false);
 
 
+  
   const offsetValue = useRef(new Animated.Value(0)).current;
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
+  
 
   return (
     <SafeAreaView style={styles.container}>
+
       <View style={{ justifyContent: 'flex-start', padding: 15 }}>
         <Image source={logo} style={{
           width: 120,
@@ -49,9 +58,14 @@ export default function App() {
 
         <View style={{ flexGrow: 1, marginTop: 50 }}>
           {TabButton(currentTab, setCurrentTab, "Home", home)}
-          {TabButton(currentTab, setCurrentTab, "Attendance", Attendance, navigation)}
-          {TabButton(currentTab, setCurrentTab, "Tasks", Task, navigation)} 
-          {TabButton(currentTab, setCurrentTab, "Emmployees", settings)}
+          {TabButton(currentTab, setCurrentTab, "Profile", settings, navigation)}
+          {TabButton(currentTab, setCurrentTab, "Employees", settings, navigation)}
+          {TabButton(currentTab, setCurrentTab, "Rating & Reviews", settings, navigation)}
+          {TabButton(currentTab, setCurrentTab, "Attendance", search, navigation)}
+          {TabButton(currentTab, setCurrentTab, "RequestAttendance", search, navigation)}
+          {TabButton(currentTab, setCurrentTab, "Tasks", search, navigation)} 
+        
+
         </View>
 
         <View>
@@ -127,12 +141,12 @@ export default function App() {
         </Animated.View>
         
         <View style={styles.dataContainer}>
-          <Text>Pie Chart</Text>
+          <Text></Text>
           <PieChartComponent />
         </View>
 
         <View style={styles.dataContainer}>
-          <Text>Bar Chart</Text>
+          <Text></Text>
           <BarChartComponent />
         </View>
         </Animated.View>
@@ -151,7 +165,18 @@ const TabButton = (currentTab, setCurrentTab, title, image, navigation) => {
         navigation.navigate("Task"); 
       } else if (title === "LogOut") {
         navigation.navigate("Welcome"); 
-      } else {        setCurrentTab(title);
+      }
+        else if (title === "Profile") {
+          navigation.navigate("Profile"); 
+        }
+        else if (title === "RequestAttendance") {
+          navigation.navigate("RequestAttendance"); 
+        } else if (title === "Rating & Reviews") {
+          navigation.navigate("Review"); 
+        } else if (title === "Employees") {
+          navigation.navigate("EmployeeMD"); 
+      } else {       
+         setCurrentTab(title);
       }
     }}>
       <View style={{

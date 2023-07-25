@@ -51,7 +51,8 @@ const handleSearch = (text) => {
 
 return(
     <View style={styles.mainContainer}>
-        <Text style={styles.mainHeader}>Employee Attendance</Text>
+  <View style={styles.titleContainer}>
+      <Text style={styles.title}>Employee Attendance</Text></View>      
         <TextInput
         style={styles.searchBar}
         placeholder="Search by ID"
@@ -87,6 +88,24 @@ return(
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontFamily:'Light',
+    fontSize: 20,
+    marginBottom: 16,
+    marginLeft:85,
+    marginTop:20,
+    textAlign:'center',
+    color:'white',
+  },
+  titleContainer:{
+    backgroundColor:'#153e5b',
+    flexDirection:'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingTop: 20,
+    width:'150%',
+      },
+
     searchBar: {
         height: 40,
         width:150,

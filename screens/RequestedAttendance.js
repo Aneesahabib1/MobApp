@@ -1,8 +1,7 @@
-
 import { View, Text, StyleSheet, FlatList, TextInput } from 'react-native'
 import React,{useEffect, useState} from 'react'
 
-const Task = ()=>{
+const RequestedAttendance = ()=>{
     const [attData, setAttData]=useState();
     const [isLoaded, setIsLoaded]= useState(true);
     const [filteredData, setFilteredData] = useState([]);
@@ -13,7 +12,7 @@ const Task = ()=>{
 const getData= async()=>{
     try{
         const response= await fetch(
-            "https://64665758ba7110b6639e57a4.mockapi.io/api/attendance/Task"
+            "https://646296267a9eead6fad2c898.mockapi.io/api/V1/Attendance"
         );
         const myData = await response.json();
         setAttData(myData);
@@ -39,9 +38,9 @@ const handleSearch = (text) => {
     };
 
 return(
-    <View style={styles.mainContainer}>
-        <View style={styles.titleContainer}>
-      <Text style={styles.title}>Employee Tasks</Text></View>
+  <View style={styles.mainContainer}>
+  <View style={styles.titleContainer}>
+      <Text style={styles.title}>Requested Attendance</Text></View>      
         <TextInput
         style={styles.searchBar}
         placeholder="Search by ID"
@@ -51,23 +50,23 @@ return(
             {filteredData.length > 0 ? (
 
  <FlatList
- keyExtractor={(item) => item.id}
         ref={(ref) => (flatListRef = ref)}
         data={filteredData}
         renderItem={({ item }) => {
     return(<View style={styles.card}>
         <View>
           <View style={styles.dataContainer}>
-            <Text style={styles.data}> Task Data </Text>
+            <Text style={styles.data}> Requests </Text>
           </View>
           <View style={styles.mainContain}>
             <Text style={styles.myName}> ID: {item.id} </Text>
-            <Text style={styles.myName}> Title: {item.title} </Text>
-            <Text style={styles.myName}> Status: {item.status} </Text>
-            <Text style={styles.myName}> Assigned to: {item.assignedto} </Text>
-            <Text style={styles.myName}> Assigned by: {item.assignedby} </Text>
-          </View>   
-        </View> 
+            <Text style={styles.myName}> From date: {item.fromdate} </Text>
+            <Text style={styles.myName}> To date: {item.todate} </Text>
+            <Text style={styles.myName}> Reason: {item.reason} </Text>
+          </View>
+          
+        </View>
+        
       </View>)
 }}/>    
 ) : (
@@ -78,11 +77,12 @@ return(
 };
 
 const styles = StyleSheet.create({
+
   title: {
     fontFamily:'Light',
     fontSize: 20,
     marginBottom: 16,
-    marginLeft:100,
+    marginLeft:85,
     marginTop:20,
     textAlign:'center',
     color:'white',
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     width:'150%',
       },
+
     searchBar: {
         height: 40,
         width:150,
@@ -115,12 +116,10 @@ const styles = StyleSheet.create({
       minHeight: "100%",
       paddingVertical: 50,
       backgroundColor: "#f4f5ff",
-      padding: 0,
-
     },
     card: {
       width: 250,
-      height: 200,
+      height: 150,
       backgroundColor: "#fff",
       borderRadius: 5,
       margin: 20,
@@ -183,4 +182,4 @@ const styles = StyleSheet.create({
       fontFamily: "JosefinSans_400Regular",
     },
   });
-  export default Task;
+  export default RequestedAttendance;
